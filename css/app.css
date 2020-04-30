@@ -1,3 +1,20 @@
-td {
-  border: 1px solid black;
+body {
+  background: #EEEEEE;
 }
+
+.cell.mood0 { background: #FFFFFF; }
+.cell.mood1 { background: #7E57C2; }
+.cell.mood2 { background: #5c6bc0; }
+.cell.mood3 { background: #00BCD4; }
+.cell.mood4 { background: #9CCC65; }
+.cell.mood5 { background: #4CAF50; }
+
+.log {
+  margin: 10px 0;
+}
+
+.log.mood1 { background: #7E57C2; }
+.log.mood2 { background: #5c6bc0; }
+.log.mood3 { background: #00BCD4; }
+.log.mood4 { background: #9CCC65; }
+.log.mood5 { background: #4CAF50; }

@@ -114,27 +114,60 @@ function processPixels(pixels) {
 }
 
 function drawPixels() {
-  const container = document.getElementById("pixelsContainer");
-  var innerHTML = "<table>";
+  const containerTable = document.getElementById("pixelsTableContainer");
+  const containerLogs = document.getElementById("pixelsLogsContainer")
+  var tableHTML = "<table>";
+  var logsHTML = "";
 
   var iDate = new Date(startingDate.getTime());
+  tableHTML += "<tr><td style=\"border: 0px\"></td>";
+  for(var j = 1; j <= 31; j++) {
+    const dayNumber = j;
+    const dayTextPrefix = (dayNumber < 10) ? "0" : "";
+    tableHTML += "<td>" + dayTextPrefix + dayNumber + "</td>"
+  }
+  tableHTML += "</tr>";
   for(var j = 0; j < monthsFromTo(startingDate, endingDate); j++) {
-    const iMonth = iDate.getMonth() + 1;
+    const monthNumber = iDate.getMonth() + 1;
     const monthName = iDate.toLocaleString('default', { month: 'long' });
     var monthHTML = "<td>" + monthName + "</td>";
-    while((iDate.getMonth() + 1) == iMonth) {
-      const iDay = iDate.getDate();
+    while((iDate.getMonth() + 1) == monthNumber) {
       const pixel = pixelsMap.get(dateToPixelId(iDate));
-      const backgroundColor = (pixel != null) ? getBackgroundColorForMood(pixel.mood) : "#FFFFFF";
-
-      var dayTextPrefix = (iDay < 10) ? "0" : "";
-      monthHTML += "<td style=background:" + backgroundColor + ";>" + dayTextPrefix + iDay + "</td>";
+      const mood = (pixel != null) ? pixel.mood : Moods.NOT_SET;
+      monthHTML += getPixelCellHTML(iDate, mood);
+      if (pixel != null) {
+        logsHTML += getPixelLogHTML(pixel);
+      }
       iDate.setDate(iDate.getDate() + 1);
     }
-    innerHTML += "<tr>" + monthHTML + "</tr>";
+    tableHTML += "<tr>" + monthHTML + "</tr>";
   }
-  innerHTML += "</table>";
-  container.innerHTML = innerHTML;
+
+  tableHTML += "</table>";
+  logsHTML += "</div>";
+  containerTable.innerHTML = tableHTML;
+  containerLogs.innerHTML = logsHTML;
+}
+
+function getPixelCellHTML(date, mood) {
+  return "<td class=\"cell mood" + mood + "\">  </td>";
+}
+
+function getPixelLogHTML(pixel) {
+  var html = "<div>";
+  const date = pixel.getDate();
+  const monthNameShort = date.toLocaleString('default', { month: 'short' });
+  const dayNumber = date.toLocaleString('default', { day: 'numeric' });
+  const dayTextPrefix = (dayNumber < 10) ? "0" : "";
+  const yearNumber = date.getFullYear();
+  const weekDay = date.toLocaleString('default', { weekday: 'long' });
+  const dateText = monthNameShort + " " + dayTextPrefix + dayNumber + " " + yearNumber + ", " + weekDay;
+  html += "<div class=\"log mood" + pixel.mood + "\">";
+  html += dateText + "<br>";
+  html += pixel.emotions + "<br>";
+  html += pixel.notes + "<br>";
+  html += "</div>";
+  return html;
 }
 
 function comparePixels(pixelA, pixelB) {
@@ -142,17 +175,6 @@ function comparePixels(pixelA, pixelB) {
     return 1;
   }
   return -1;
-}
-
-function getBackgroundColorForMood(mood) {
-  switch (mood) {
-    case Moods.SADDEST: return "#7E57C2";
-    case Moods.SAD: return "#5c6bc0";
-    case Moods.NEUTRAL: return "#00BCD4";
-    case Moods.HAPPY: return "#9CCC65";
-    case Moods.HAPPIEST: return "#4CAF50";
-    default: return "#FFFFFF";
-  }
 }
 
 function dateToPixelId(date) {
