@@ -154,7 +154,7 @@ function getPixelCellHTML(date, mood) {
 }
 
 function getPixelLogHTML(pixel) {
-  var html = "<div>";
+  var html = "<div class=\"card log\">";
   const date = pixel.getDate();
   const monthNameShort = date.toLocaleString('default', { month: 'short' });
   const dayNumber = date.toLocaleString('default', { day: 'numeric' });
@@ -162,11 +162,13 @@ function getPixelLogHTML(pixel) {
   const yearNumber = date.getFullYear();
   const weekDay = date.toLocaleString('default', { weekday: 'long' });
   const dateText = monthNameShort + " " + dayTextPrefix + dayNumber + " " + yearNumber + ", " + weekDay;
-  html += "<div class=\"log mood" + pixel.mood + "\">";
+  html += "<div class=\"row \">";
+  html += "<div class=\"col-2 mood" + pixel.mood + "\"><img src=\"img/mood" + pixel.mood + ".png\"></div>";
+  html += "<div class=\"col-10\">";
   html += dateText + "<br>";
   html += pixel.emotions + "<br>";
   html += pixel.notes + "<br>";
-  html += "</div>";
+  html += "</div></div></div>";
   return html;
 }
 
