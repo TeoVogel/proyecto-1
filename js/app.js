@@ -83,9 +83,6 @@ function parseJSON(jsonArray) {
 function processPixels(pixels) {
   pixels.sort(comparePixels);
 
-  var currentDate = new Date(Date.now());
-  this.startingDate = currentDate;
-  this.endingDate = currentDate;
   this.pixelsMap = new Map()
   if (pixels.lenght == 0) {
     // TODO show error message ?
@@ -94,17 +91,8 @@ function processPixels(pixels) {
 
   this.firstPixel = pixels[0];
   this.lastPixel = pixels[pixels.length - 1];
-
-  var firstPixelDate = this.firstPixel.getDate();
-  var lastPixelDate = this.lastPixel.getDate();
-  if (firstPixelDate < currentDate) {
-    this.startingDate = firstPixelDate;
-  }
-  if (lastPixelDate > currentDate) {
-    this.endingDate = lastPixelDate;
-  }
-  this.startingDate.setDate(1);
-  this.endingDate.setDate(1);
+  this.startingDate = firstPixel.getDate();
+  this.endingDate = lastPixel.getDate();
 
   for(var i = 0; i < pixels.length; i++) {
     pixelsMap.set(pixels[i].getId(), pixels[i]);
