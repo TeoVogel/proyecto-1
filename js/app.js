@@ -15,7 +15,7 @@ class Pixel {
     this.year = parseInt(year);
 
     this.mood = Moods.NOT_SET;
-    this.notes = "";
+    this.notes = '';
     this.emotions = [];
   }
 
@@ -41,30 +41,13 @@ class Pixel {
 
 }
 
-class Month {
-
-  constructor(month, year) {
-    this.month = month;
-    this.year = year;
-    this.maxDay = (new Date(year, month, 0)).getDate();
-    this.pixels = [];
-  }
-
-  addPixel(pixel) {
-    if (pixel.month == this.month && pixel.year == this.year) {
-      this.pixels.push(pixel);
-    }
-  }
-
-}
-
 function parseJSON(jsonArray) {
   var pixels = [];
   for(var i = 0; i < jsonArray.length; i++) {
       var pixelJsonObj = jsonArray[i];
 
       var date = pixelJsonObj.date;
-      var yearMonthDay = date.split("-");
+      var yearMonthDay = date.split('-');
       var pixel = new Pixel(yearMonthDay[2], yearMonthDay[1], yearMonthDay[0]);
       pixel.setMood(Moods.NOT_SET + pixelJsonObj.mood);
       pixel.setNotes(pixelJsonObj.notes);
@@ -102,65 +85,88 @@ function processPixels(pixels) {
 }
 
 function drawPixels() {
-  const containerTable = document.getElementById("pixelsTableContainer");
-  const containerLogs = document.getElementById("pixelsLogsContainer")
-  var tableHTML = "<table>";
-  var logsHTML = "";
+  var tableHTML = '<table>';
+  var logsHTML = '';
+  tableHTML += getPixelsTableHeaderHTML();
 
   var iDate = new Date(startingDate.getTime());
-  tableHTML += "<tr><td style=\"border: 0px\"></td>";
-  for(var j = 1; j <= 31; j++) {
-    const dayNumber = j;
-    const dayTextPrefix = (dayNumber < 10) ? "0" : "";
-    tableHTML += "<td>" + dayTextPrefix + dayNumber + "</td>"
-  }
-  tableHTML += "</tr>";
   for(var j = 0; j < monthsFromTo(startingDate, endingDate); j++) {
-    const monthNumber = iDate.getMonth() + 1;
     const monthName = iDate.toLocaleString('default', { month: 'long' });
-    var monthHTML = "<td>" + monthName + "</td>";
+    const monthNumber = iDate.getMonth() + 1;
+    const yearNumber = iDate.getFullYear();
+    const pixelsInMonth = [];
+    var tableRowHTML = '<td>' + monthName + '</td>';
     while((iDate.getMonth() + 1) == monthNumber) {
       const pixel = pixelsMap.get(dateToPixelId(iDate));
-      const mood = (pixel != null) ? pixel.mood : Moods.NOT_SET;
-      monthHTML += getPixelCellHTML(iDate, mood);
-      if (pixel != null) {
-        logsHTML += getPixelLogHTML(pixel);
-      }
+      tableRowHTML += getPixelCellHTML(pixel);
+      if (pixel != null) { pixelsInMonth.push(pixel); }
       iDate.setDate(iDate.getDate() + 1);
     }
-    tableHTML += "<tr>" + monthHTML + "</tr>";
+    logsHTML += getPixelLogMonthHTML(pixelsInMonth, monthName, monthNumber, yearNumber);
+    tableHTML += '<tr>' + tableRowHTML + '</tr>';
   }
 
-  tableHTML += "</table>";
-  logsHTML += "</div>";
-  containerTable.innerHTML = tableHTML;
-  containerLogs.innerHTML = logsHTML;
+  tableHTML += '</table>';
+  document.getElementById('pixelsTableContainer').innerHTML = tableHTML;
+  document.getElementById('pixelsLogsContainer').innerHTML = logsHTML;
 }
 
-function getPixelCellHTML(date, mood) {
-  return "<td class=\"cell mood" + mood + "\">  </td>";
+function getPixelsTableHeaderHTML() {
+  var html = '<tr><td style="border: 0px"></td>';
+  for(var j = 1; j <= 31; j++) {
+    const dayNumber = j;
+    const dayTextPrefix = (dayNumber < 10) ? '0' : '';
+    html += '<td>' + dayTextPrefix + dayNumber + '</td>';
+  }
+  html += '</tr>';
+  return html;
+}
+
+function getPixelCellHTML(pixel) {
+  const mood = (pixel != null) ? pixel.mood : Moods.NOT_SET;
+  return '<td class="cell mood' + mood + '">  </td>';
+}
+
+function getPixelLogMonthHTML(pixels, monthName, month, year) {
+  var html = "";
+  if (pixels.length != 0) {
+    const containerId = getLogMonthContainerElementId(month, year);
+    html += '<a data-toggle="collapse" href="#' + containerId + '" >'
+    html += '<div class="monthHeader"><h4>' + monthName + '</h4></div>';
+    html += '</a>';
+    html += '<div class="collapse" id="' + containerId + '">';
+    pixels.forEach((pixel) => {
+      html += getPixelLogHTML(pixel);
+    });
+    html += '</div>';
+  }
+  return html;
 }
 
 function getPixelLogHTML(pixel) {
-  var html = "<div class=\"card log\">";
+  var html = '<div class="card log">';
   const date = pixel.getDate();
   const monthNameShort = date.toLocaleString('default', { month: 'short' });
   const dayNumber = date.toLocaleString('default', { day: 'numeric' });
-  const dayTextPrefix = (dayNumber < 10) ? "0" : "";
+  const dayTextPrefix = (dayNumber < 10) ? '0' : '';
   const yearNumber = date.getFullYear();
   const weekDay = date.toLocaleString('default', { weekday: 'long' });
-  const dateText = dayTextPrefix + dayNumber + " " + monthNameShort + " " + yearNumber + ", " + weekDay;
-  html += "<div class=\"row \">";
-  html += "<div class=\"col-2 col-lg-1 mood" + pixel.mood + "\"><img src=\"img/mood" + pixel.mood + ".png\"></div>";
-  html += "<div class=\"col-10 col-lg-11\">";
-  html += "<h6>" + dateText + "</h6>";
-  for (var i = 0; i < pixel.emotions.length; i++) {
-    html += "<div class=\"emotion\">" + pixel.emotions[i] + "</div>";
-  }
-  html += "<br>";
-  html += "<p>" + pixel.notes + "</p>";
-  html += "</div></div></div>";
+  const dateText = dayTextPrefix + dayNumber + ' ' + monthNameShort + ' ' + yearNumber + ', ' + weekDay;
+  html += '<div class="row ">';
+  html += '<div class="col-2 col-lg-1 mood' + pixel.mood + '"><img src="img/mood' + pixel.mood + '.png"></div>';
+  html += '<div class="col-10 col-lg-11">';
+  html += '<h6>' + dateText + '</h6>';
+  pixel.emotions.forEach((emotion) => {
+    html += '<div class="emotion">' + emotion + '</div>';
+  });
+  html += '<br>';
+  html += '<p>' + pixel.notes + '</p>';
+  html += '</div></div></div>';
   return html;
+}
+
+function getLogMonthContainerElementId(month, year) {
+  return 'logMonthContainer' + year + '-' + month;
 }
 
 function comparePixels(pixelA, pixelB) {

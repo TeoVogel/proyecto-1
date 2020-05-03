@@ -65,6 +65,21 @@ body {
   margin: 1rem 0 0 0;
 }
 
+.monthHeader {
+  padding: 10px;
+  color: #000000;
+  text-align: center;
+  border-radius: .5rem;
+}
+
+.monthHeader:hover {
+  background: #DEDEDE;
+}
+
+.monthHeader h4 {
+  margin: 0;
+}
+
 .emotion {
   background: #DEDEDE;
   display: inline-block;
