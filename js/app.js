@@ -84,7 +84,7 @@ function processPixels(pixels) {
   pixels.sort(comparePixels);
 
   this.pixelsMap = new Map()
-  if (pixels.lenght == 0) {
+  if (pixels.length == 0) {
     // TODO show error message ?
     return;
   }
@@ -149,13 +149,16 @@ function getPixelLogHTML(pixel) {
   const dayTextPrefix = (dayNumber < 10) ? "0" : "";
   const yearNumber = date.getFullYear();
   const weekDay = date.toLocaleString('default', { weekday: 'long' });
-  const dateText = monthNameShort + " " + dayTextPrefix + dayNumber + " " + yearNumber + ", " + weekDay;
+  const dateText = dayTextPrefix + dayNumber + " " + monthNameShort + " " + yearNumber + ", " + weekDay;
   html += "<div class=\"row \">";
-  html += "<div class=\"col-2 mood" + pixel.mood + "\"><img src=\"img/mood" + pixel.mood + ".png\"></div>";
-  html += "<div class=\"col-10\">";
-  html += dateText + "<br>";
-  html += pixel.emotions + "<br>";
-  html += pixel.notes + "<br>";
+  html += "<div class=\"col-2 col-lg-1 mood" + pixel.mood + "\"><img src=\"img/mood" + pixel.mood + ".png\"></div>";
+  html += "<div class=\"col-10 col-lg-11\">";
+  html += "<h6>" + dateText + "</h6>";
+  for (var i = 0; i < pixel.emotions.length; i++) {
+    html += "<div class=\"emotion\">" + pixel.emotions[i] + "</div>";
+  }
+  html += "<br>";
+  html += "<p>" + pixel.notes + "</p>";
   html += "</div></div></div>";
   return html;
 }

@@ -2,18 +2,42 @@ body {
   background: #EEEEEE;
 }
 
+.card {
+  border-radius: .5rem;
+}
+
 #pixelsTableContainer {
     display: flex;
     justify-content: center;
+    margin: 40px 0;
 }
 
-td {
-  padding: 5px !important;
+#pixelsTableContainer td {
+  padding: 0px !important;
   border: 1px solid #EEEEEE !important;
-  font-size: 14px !important;
+  font-size: 12px !important;
+}
+@media (min-width: 768px) {
+  #pixelsTableContainer td {
+    padding: 2px !important;
+    font-size: 13px !important;
+  }
+}
+@media (min-width: 992px) {
+  #pixelsTableContainer td {
+    padding: 5px !important;
+    font-size: 14px !important;
+  }
+}
+@media (min-width: 1200px) {
+  #pixelsTableContainer td {
+    padding: 6px !important;
+    font-size: 15px !important;
+  }
 }
 
 .log {
+  padding: 10px;
   margin: 10px 0;
 }
 
@@ -31,10 +55,20 @@ td {
 
 .log img {
   margin: 10px;
-  padding: 5px;
+  padding: 2px;
   max-width: 100%;
   max-height: 50px;
   border-radius: 50%;
 }
 
-.log .mood4 img { background: #9CCC65; }
+.log p {
+  margin: 1rem 0 0 0;
+}
+
+.emotion {
+  background: #DEDEDE;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 1rem;
+  margin: 0 4px 0 0;
+}
