@@ -131,20 +131,21 @@ function getPixelLogMonthHTML(pixels, monthName, month, year) {
   var html = "";
   if (pixels.length != 0) {
     const containerId = getLogMonthContainerElementId(month, year);
-    html += '<a data-toggle="collapse" href="#' + containerId + '" >'
-    html += '<div class="monthHeader"><h4>' + monthName + '</h4></div>';
+    html += '<div class="monthHeader card">'
+    html += '<a class="collapsed" data-toggle="collapse" href="#' + containerId + '" >'
+    html += '<h4>' + monthName + '</h4>';
     html += '</a>';
     html += '<div class="collapse" id="' + containerId + '">';
     pixels.forEach((pixel) => {
       html += getPixelLogHTML(pixel);
     });
-    html += '</div>';
+    html += '</div></div>';
   }
   return html;
 }
 
 function getPixelLogHTML(pixel) {
-  var html = '<div class="card log">';
+  var html = '<div class="log">';
   const date = pixel.getDate();
   const monthNameShort = date.toLocaleString('default', { month: 'short' });
   const dayNumber = date.toLocaleString('default', { day: 'numeric' });
