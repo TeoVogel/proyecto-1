@@ -95,7 +95,7 @@ function drawPixels() {
     const month = iDate.getMonth() + 1;
     const year = iDate.getFullYear();
     const pixelsInMonth = [];
-    var tableRowHTML = `<td>${monthNameShort}</td>`;
+    var tableRowHTML = `<td class="cell pixelsTableMonthCell">${monthNameShort}</td>`;
     while((iDate.getMonth() + 1) == month) {
       const pixel = pixelsMap.get(dateToPixelId(iDate));
       tableRowHTML += getPixelCellHTML(pixel);
@@ -112,11 +112,11 @@ function drawPixels() {
 }
 
 function getPixelsTableHeaderRowHTML() {
-  var html = '<tr><td style="border: 0px"></td>';
+  var html = '<tr class="pixelsTableHeaderRow"><td class="cell" style="border: 0px"></td>';
   for(var j = 1; j <= 31; j++) {
     const day = j;
     const dayPfx = (day < 10) ? '0' : '';
-    html += `<td>${dayPfx}${day}</td>`;
+    html += `<td class="cell">${dayPfx}${day}</td>`;
   }
   html += '</tr>';
   return html;
