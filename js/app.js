@@ -86,23 +86,23 @@ function processPixels(pixels) {
 function drawPixels() {
   var tableHTML = '<table>';
   var logsHTML = '';
-  tableHTML += getPixelsTableHeaderHTML();
+  tableHTML += getPixelsTableHeaderRowHTML();
 
   var iDate = new Date(startingDate.getTime());
   for(var j = 0; j < monthsFromTo(startingDate, endingDate); j++) {
     const monthName = iDate.toLocaleString('default', { month: 'long' });
-    const monthNumber = iDate.getMonth() + 1;
-    const yearNumber = iDate.getFullYear();
+    const month = iDate.getMonth() + 1;
+    const year = iDate.getFullYear();
     const pixelsInMonth = [];
-    var tableRowHTML = '<td>' + monthName + '</td>';
-    while((iDate.getMonth() + 1) == monthNumber) {
+    var tableRowHTML = `<td>${monthName}</td>`;
+    while((iDate.getMonth() + 1) == month) {
       const pixel = pixelsMap.get(dateToPixelId(iDate));
       tableRowHTML += getPixelCellHTML(pixel);
       if (pixel != null) { pixelsInMonth.push(pixel); }
       iDate.setDate(iDate.getDate() + 1);
     }
-    logsHTML += getPixelLogMonthHTML(pixelsInMonth, monthName, monthNumber, yearNumber);
-    tableHTML += '<tr>' + tableRowHTML + '</tr>';
+    logsHTML += getPixelLogMonthHTML(pixelsInMonth, monthName, month, year);
+    tableHTML += `<tr>${tableRowHTML}</tr>`;
   }
 
   tableHTML += '</table>';
@@ -110,12 +110,12 @@ function drawPixels() {
   document.getElementById('pixelsLogsContainer').innerHTML = logsHTML;
 }
 
-function getPixelsTableHeaderHTML() {
+function getPixelsTableHeaderRowHTML() {
   var html = '<tr><td style="border: 0px"></td>';
   for(var j = 1; j <= 31; j++) {
-    const dayNumber = j;
-    const dayTextPrefix = (dayNumber < 10) ? '0' : '';
-    html += '<td>' + dayTextPrefix + dayNumber + '</td>';
+    const day = j;
+    const dayPfx = (day < 10) ? '0' : '';
+    html += `<td>${dayPfx}${day}</td>`;
   }
   html += '</tr>';
   return html;
@@ -128,42 +128,50 @@ function getPixelCellHTML(pixel) {
 }
 
 function getPixelLogMonthHTML(pixels, monthName, month, year) {
-  var html = "";
   if (pixels.length != 0) {
-    const containerId = getLogMonthElementId(month, year);
-    html += '<div class="monthHeader card">'
-    html += '<a class="collapsed" data-toggle="collapse" href="#' + containerId + '" >'
-    html += '<h4>' + monthName + '</h4>';
-    html += '</a>';
-    html += '<div class="collapse" id="' + containerId + '">';
-    pixels.forEach((pixel) => {
-      html += getPixelLogHTML(pixel);
-    });
-    html += '</div></div>';
+    const id = getLogMonthElementId(month, year);
+    var pixelLogsHtml = "";
+    pixels.forEach((pixel) => { pixelLogsHtml += getPixelLogHTML(pixel); });
+    return `<div class="monthHeader card">
+              <a class="collapsed" data-toggle="collapse" href="#${id}">
+                <h5>${monthName}</h5>
+              </a>
+              <div class="collapse" id="${id}">
+                ${pixelLogsHtml}
+              </div>
+            </div>`;
   }
-  return html;
+  return ``;
 }
 
 function getPixelLogHTML(pixel) {
-  var html = `<div class="log" id="${getLogElementId(pixel.day, pixel.month, pixel.year)}">`;
-  const date = pixel.getDate();
-  const monthNameShort = date.toLocaleString('default', { month: 'short' });
-  const dayNumber = date.toLocaleString('default', { day: 'numeric' });
-  const dayTextPrefix = (dayNumber < 10) ? '0' : '';
-  const yearNumber = date.getFullYear();
-  const weekDay = date.toLocaleString('default', { weekday: 'long' });
-  const dateText = dayTextPrefix + dayNumber + ' ' + monthNameShort + ' ' + yearNumber + ', ' + weekDay;
-  html += '<div class="row ">';
-  html += '<div class="col-2 col-lg-1 mood' + pixel.mood + '"><img src="img/mood' + pixel.mood + '.png"></div>';
-  html += '<div class="col-10 col-lg-11">';
-  html += '<h6>' + dateText + '</h6>';
-  pixel.emotions.forEach((emotion) => {
-    html += '<div class="emotion">' + emotion + '</div>';
-  });
-  html += '<br>';
-  html += '<p>' + pixel.notes + '</p>';
-  html += '</div></div></div>';
+  const id = getLogElementId(pixel.day, pixel.month, pixel.year);
+  const dateText = getPixelLogDateText(pixel.getDate());
+  var emotionsHtml = "";
+  pixel.emotions.forEach((emotion) => { emotionsHtml += `<div class="emotion">${emotion}</div>`; });
+  var html =
+    `<div class="log" id="${id}">
+      <div class="row ">
+        <div class="col-2 col-lg-1 mood${pixel.mood}">
+          <img src="img/mood${pixel.mood}.png">
+        </div>
+          <div class="col-10 col-lg-11">
+            <h6>${dateText}</h6>
+            <div>${emotionsHtml}</div>
+            <p>${pixel.notes}</p>
+        </div>
+      </div>
+    </div>`;
   return html;
+}
+
+function getPixelLogDateText(date) {
+  const monthNameShort = date.toLocaleString('default', { month: 'short' });
+  const day = date.toLocaleString('default', { day: 'numeric' });
+  const dayPfx = (day < 10) ? '0' : '';
+  const year = date.getFullYear();
+  const weekDay = date.toLocaleString('default', { weekday: 'long' });
+  return `${dayPfx}${day} ${monthNameShort} ${year}, ${weekDay}`;
 }
 
 function getLogMonthElementId(month, year) {

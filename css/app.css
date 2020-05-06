@@ -74,7 +74,6 @@ body {
 }
 
 .monthHeader {
-  padding: 10px;
   margin: 10px 0;
   border-radius: .5rem;
   border: 2px solid transparent;
@@ -84,18 +83,19 @@ body {
   border: 2px solid #DEDEDE;
 }
 
-.monthHeader h4 {
+.monthHeader h5 {
+  padding: 10px;
   margin: 0;
   color: #000000;
 }
 
-.monthHeader h4:before {
+.monthHeader h5:before {
   font-family: 'FontAwesome';
   content: "\f106";
   margin: 8px;
 }
 
-.monthHeader .collapsed h4:before {
+.monthHeader .collapsed h5:before {
   font-family: 'FontAwesome';
   content: "\f107";
   margin: 8px;
