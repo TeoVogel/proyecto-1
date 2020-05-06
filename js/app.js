@@ -58,7 +58,6 @@ function parseJSON(jsonArray) {
       }
 
       pixels.push(pixel);
-      console.log(pixel);
   }
   processPixels(pixels);
 }
@@ -124,13 +123,14 @@ function getPixelsTableHeaderHTML() {
 
 function getPixelCellHTML(pixel) {
   const mood = (pixel != null) ? pixel.mood : Moods.NOT_SET;
-  return '<td class="cell mood' + mood + '">  </td>';
+  const onClickListener = (pixel != null) ? `onClick="onPixelClicked(${pixel.day}, ${pixel.month}, ${pixel.year})"` : "";
+  return `<td class="cell mood${mood}" ${onClickListener}>  </td>`;
 }
 
 function getPixelLogMonthHTML(pixels, monthName, month, year) {
   var html = "";
   if (pixels.length != 0) {
-    const containerId = getLogMonthContainerElementId(month, year);
+    const containerId = getLogMonthElementId(month, year);
     html += '<div class="monthHeader card">'
     html += '<a class="collapsed" data-toggle="collapse" href="#' + containerId + '" >'
     html += '<h4>' + monthName + '</h4>';
@@ -145,7 +145,7 @@ function getPixelLogMonthHTML(pixels, monthName, month, year) {
 }
 
 function getPixelLogHTML(pixel) {
-  var html = '<div class="log">';
+  var html = `<div class="log" id="${getLogElementId(pixel.day, pixel.month, pixel.year)}">`;
   const date = pixel.getDate();
   const monthNameShort = date.toLocaleString('default', { month: 'short' });
   const dayNumber = date.toLocaleString('default', { day: 'numeric' });
@@ -166,8 +166,17 @@ function getPixelLogHTML(pixel) {
   return html;
 }
 
-function getLogMonthContainerElementId(month, year) {
-  return 'logMonthContainer' + year + '-' + month;
+function getLogMonthElementId(month, year) {
+  return `logMonth${year}-${month}`;
+}
+
+function getLogElementId(day, month, year) {
+  return `log${year}-${month}-${day}`;
+}
+
+function onPixelClicked(day, month, year) {
+  document.getElementById(getLogMonthElementId(month, year)).classList.add("show");
+  document.getElementById(getLogElementId(day, month, year)).scrollIntoView();
 }
 
 function comparePixels(pixelA, pixelB) {
