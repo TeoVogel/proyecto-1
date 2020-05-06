@@ -1,5 +1,16 @@
 body {
   background: #EEEEEE;
+  padding: 1rem 0rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-image {
+  margin-bottom: 1rem
 }
 
 .card {
