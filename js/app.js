@@ -76,6 +76,8 @@ function processPixels(pixels) {
   this.startingDate = firstPixel.getDate();
   this.endingDate = lastPixel.getDate();
 
+  startingDate.setDate(1);
+
   for(var i = 0; i < pixels.length; i++) {
     pixelsMap.set(pixels[i].getId(), pixels[i]);
   }
