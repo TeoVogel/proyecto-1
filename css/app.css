@@ -41,6 +41,10 @@ body {
   border-bottom: 1px solid #DEDEDE;
 }
 
+.cell {
+  cursor: pointer;
+}
+
 .cell.mood1 { background: #7E57C2; }
 .cell.mood2 { background: #5c6bc0; }
 .cell.mood3 { background: #00BCD4; }
