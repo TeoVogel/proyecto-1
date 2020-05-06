@@ -91,10 +91,11 @@ function drawPixels() {
   var iDate = new Date(startingDate.getTime());
   for(var j = 0; j < monthsFromTo(startingDate, endingDate); j++) {
     const monthName = iDate.toLocaleString('default', { month: 'long' });
+    const monthNameShort = iDate.toLocaleString('default', { month: 'short' });
     const month = iDate.getMonth() + 1;
     const year = iDate.getFullYear();
     const pixelsInMonth = [];
-    var tableRowHTML = `<td>${monthName}</td>`;
+    var tableRowHTML = `<td>${monthNameShort}</td>`;
     while((iDate.getMonth() + 1) == month) {
       const pixel = pixelsMap.get(dateToPixelId(iDate));
       tableRowHTML += getPixelCellHTML(pixel);
