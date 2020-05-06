@@ -20,46 +20,31 @@
       <div class="header-image"> <a href="https://www.teovogel.me/pixels" target="_blank"><img src="img\icon.png"/></a></div>
     </div>
 
-    <div class="container">
-      <h1>Proyecto 1</h1>
-      <input type="file" id="selectFiles" value="Import" /><br />
-      <button id="import">Import</button>
-      <textarea id="result"></textarea>
+    <div class="container" id="jsonUploaderContainer">
+      <input type="file" id="selectFiles" value="Import" /><br/>
     </div>
 
-    <div class="container-fluid">
-        <div class="row">
-          <div class="col-12" id="pixelsTableContainer"></div>
-        </div>
-    </div>
-
-    <div class="container">
-      <div id="pixelsLogsContainer"></div>
-    </div>
-
-    <script>
-    document.getElementById('import').onclick = function() {
-      var files = document.getElementById('selectFiles').files;
-      console.log(files);
-      if (files.length <= 0) {
-        return false;
-      }
-
-      var fr = new FileReader();
-      fr.onload = function(e) {
-        console.log(e);
-        var result = JSON.parse(e.target.result);
-        var formatted = JSON.stringify(result, null, 2);
-        document.getElementById('result').value = formatted;
-        parseJSON(result);
-      }
-      fr.readAsText(files.item(0));
-    };
-    </script>
+    <div class="container-fluid" id="pixelsTableContainer"></div>
+    <div class="container" id="pixelsLogsContainer"></div>
 
     <!-- JavaScript -->
     <script src="js/app.js"></script><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+
+
+
+    <script>
+      $("#selectFiles").change(function(ev) {
+        var files = $("#selectFiles")[0].files;
+        if (files.length <= 0) { return false; }
+        var fr = new FileReader();
+        fr.onload = function(e) {
+          var result = JSON.parse(e.target.result);
+          parseJSON(result);
+        }
+        fr.readAsText(files.item(0));
+      });
+    </script>
   </body>
 </html>
