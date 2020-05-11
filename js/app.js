@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import * as models from models.js;
-import * as pixelUtils  from pixelsUtils.js;
-import * as dateUtils from dateUtils.js;
-=======
 const Moods = {
   NOT_SET : 0,
   SADDEST : 1,
@@ -50,7 +45,6 @@ function parseJSON(jsonArray) {
   var pixels = [];
   for(var i = 0; i < jsonArray.length; i++) {
       var pixelJsonObj = jsonArray[i];
->>>>>>> parent of ef647de... Test modularizando JS
 
       var date = pixelJsonObj.date;
       var yearMonthDay = date.split('-');
