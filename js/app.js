@@ -1,6 +1,6 @@
-import * from models.js
-import * from pixelsUtils.js
-import * from dateUtils.js
+import * as Models from models.js;
+import * as PixelUtils  from pixelsUtils.js;
+import * as DateUtils from dateUtils.js;
 
 function parseJSON(json) {
   processPixels(parseJSONToPixels(json));
