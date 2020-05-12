@@ -1,46 +1,3 @@
-const Moods = {
-  NOT_SET : 0,
-  SADDEST : 1,
-  SAD : 2,
-  NEUTRAL : 3,
-  HAPPY : 4,
-  HAPPIEST : 5
-}
-
-class Pixel {
-
-  constructor(day, month, year) {
-    this.day = parseInt(day);
-    this.month = parseInt(month);
-    this.year = parseInt(year);
-
-    this.mood = Moods.NOT_SET;
-    this.notes = '';
-    this.emotions = [];
-  }
-
-  setMood(mood) {
-    this.mood = mood;
-  }
-
-  setNotes(notes) {
-    this.notes = notes;
-  }
-
-  addEmotion(emotion) {
-    this.emotions.push(emotion);
-  }
-
-  getDate() {
-    return new Date(this.year, this.month - 1, this.day);
-  }
-
-  getId() {
-    return (((this.year * 100) + this.month) * 100) + this.day;
-  }
-
-}
-
 function setupTheme() {
   this.isDarkThemeEnabled = localStorage.getItem("isDarkThemeEnabled");
   setTheme(this.isDarkThemeEnabled);
@@ -210,24 +167,4 @@ function getLogElementId(day, month, year) {
 function onPixelClicked(day, month, year) {
   document.getElementById(getLogMonthElementId(month, year)).classList.add("show");
   document.getElementById(getLogElementId(day, month, year)).scrollIntoView();
-}
-
-function comparePixels(pixelA, pixelB) {
-  if (pixelA.getDate() > pixelB.getDate()) {
-    return 1;
-  }
-  return -1;
-}
-
-function dateToPixelId(date) {
-  return (((date.getFullYear() * 100) + date.getMonth() + 1) * 100) + date.getDate();
-}
-
-function monthsFromTo(d1, d2) {
-    var months;
-    months = (d2.getFullYear() - d1.getFullYear()) * 12;
-    months -= d1.getMonth();
-    months += d2.getMonth();
-    months++;
-    return months <= 0 ? 0 : months;
 }
