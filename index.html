@@ -20,8 +20,18 @@
       <div class="header-image"> <a href="https://www.teovogel.me/pixels" target="_blank"><img src="img\icon.png"/></a></div>
     </div>
 
-    <div class="container" id="jsonUploaderContainer">
-      <input type="file" id="selectFiles" value="Import" /><br/>
+    <div class="container text-center" id="jsonUploaderContainer">
+      <button type="button" class="btn btn-primary" onclick="document.getElementById('selectFiles').click();">Upload JSON</button>
+        <input style="display: none;" type="file" id="selectFiles" class="form-control-file" value="Import" accept=".json" />
+      <br/><br/>
+      <div class="container">
+        <p><b>Select the JSON file containing your pixels from your computer.</p>
+        <p>You can export your pixels from the app with the "Export to JSON" option!</b></p><br/>
+        <p>Your Pixels will not be uploaded to the cloud, they will be processed locally on your browser.</p>
+        <p>When you refresh the page, they will get deleted from it.</p>
+        <p>Always be mindful of your data. Only upload your pixels to sites and devices you trust!</p><br/>
+        <p>You can read the source code of this page at <a href="https://github.com/TeoVogel/proyecto-1" target="_blank">https://github.com/TeoVogel/proyecto-1</a></p>
+      </div>
     </div>
 
     <div class="container-fluid" id="pixelsTableContainer"></div>

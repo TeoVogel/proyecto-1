@@ -90,6 +90,7 @@ function drawPixels() {
   tableHTML += '</table>';
   document.getElementById('pixelsTableContainer').innerHTML = tableHTML;
   document.getElementById('pixelsLogsContainer').innerHTML = logsHTML;
+  document.getElementById('jsonUploaderContainer').style.display = 'none';
 }
 
 function getPixelsTableHeaderRowHTML() {

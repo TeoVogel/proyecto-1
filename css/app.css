@@ -10,7 +10,7 @@
   --bgColor:           #EEEEEE;
   --bgColorLight:      #FFFFFF;
   --bgColorDark:       #DEDEDE;
-  --fontColor:         #000000;
+  --fontColor:         #000000B0;
   --moodNotSetColor:   var(--bgColorDark);
 }
 
@@ -18,7 +18,7 @@
   --bgColor:           #333333;
   --bgColorLight:      #474747;
   --bgColorDark:       #2d2d2d;
-  --fontColor:         #FFFFFF;
+  --fontColor:         #FFFFFFB0;
   --moodNotSetColor:   var(--bgColorDark);
 }
 
@@ -26,6 +26,27 @@ body {
   background: var(--bgColor);
   padding: 1rem 0rem;
   color: var(--fontColor);
+}
+
+a {
+  color: #d95e87;
+}
+
+a:hover {
+  color: #c35479;
+}
+
+.btn.btn-primary {
+  color: #c35479;
+}
+
+.btn.btn-primary:hover, .btn.btn-primary:focus {
+  color: #c35479;
+}
+
+
+p {
+  margin-bottom: .5rem;
 }
 
 .header {
@@ -42,6 +63,11 @@ body {
   border-radius: .5rem;
     background: var(--bgColorLight);
 }
+
+#jsonUploaderContainer {
+    padding: 40px 0;
+}
+
 
 #pixelsTableContainer {
     display: flex;
