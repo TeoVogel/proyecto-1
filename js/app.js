@@ -41,6 +41,28 @@ class Pixel {
 
 }
 
+function setupTheme() {
+  this.isDarkThemeEnabled = localStorage.getItem("isDarkThemeEnabled");
+  setTheme(this.isDarkThemeEnabled);
+  document.getElementById("themeToggle").checked = this.isDarkThemeEnabled;
+}
+
+function setTheme(isDarkThemeEnabled) {
+  if (isDarkThemeEnabled) {
+    document.body.classList.remove("light-theme");
+    document.body.classList.add("dark-theme");
+  } else {
+    document.body.classList.add("light-theme");
+    document.body.classList.remove("dark-theme");
+  }
+}
+
+function toggleTheme() {
+  this.isDarkThemeEnabled = !this.isDarkThemeEnabled;
+  setTheme(this.isDarkThemeEnabled);
+  localStorage.setItem("isDarkThemeEnabled", this.isDarkThemeEnabled);
+}
+
 function parseJSON(jsonArray) {
   var pixels = [];
   for(var i = 0; i < jsonArray.length; i++) {

@@ -157,3 +157,37 @@ body {
   border-radius: 1rem;
   margin: 0 4px 0 0;
 }
+
+label {
+  color: var(--fontColor) !important;
+}
+
+.bmd-switch-track {
+  background-image: linear-gradient(90deg,rgba(0,0,0,.26) 0,rgba(0,0,0,.26) 50%,#b7bacb 0,#b7bacb) !important;
+}
+
+.switch label input:checked+.bmd-switch-track:after{
+  background-color: #d95e87;
+}
+
+/*-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 60px; /* Margin bottom by footer height */
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Set the fixed height of the footer here */
+  line-height: 60px; /* Vertically center the text there */
+  background-color: var(--bgColorDark);
+}
+
+.footer form {
+  margin: 0;
+  float: right;
+}
