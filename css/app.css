@@ -1,6 +1,31 @@
+:root {
+  --moodSaddestColor:  #7E57C2;
+  --moodSadColor:      #5c6bc0;
+  --moodNeutralColor:  #00BCD4;
+  --moodHappyColor:    #9CCC65;
+  --moodHappiestColor: #4CAF50;
+}
+
+.light-theme {
+  --bgColor:           #EEEEEE;
+  --bgColorLight:      #FFFFFF;
+  --bgColorDark:       #DEDEDE;
+  --fontColor:         #000000;
+  --moodNotSetColor:   var(--bgColorDark);
+}
+
+.dark-theme {
+  --bgColor:           #333333;
+  --bgColorLight:      #474747;
+  --bgColorDark:       #2d2d2d;
+  --fontColor:         #FFFFFF;
+  --moodNotSetColor:   var(--bgColorDark);
+}
+
 body {
-  background: #EEEEEE;
+  background: var(--bgColor);
   padding: 1rem 0rem;
+  color: var(--fontColor);
 }
 
 .header {
@@ -15,6 +40,7 @@ body {
 
 .card {
   border-radius: .5rem;
+    background: var(--bgColorLight);
 }
 
 #pixelsTableContainer {
@@ -25,7 +51,7 @@ body {
 
 .cell {
   padding: .4rem !important;
-  border: 1px solid #EEEEEE !important;
+  border: 1px solid var(--bgColor) !important;
   font-size: 12px !important;
   cursor: pointer;
 }
@@ -64,21 +90,21 @@ body {
 
 .log {
   padding: 20px 10px;
-  border-bottom: 1px solid #DEDEDE;
+  border-bottom: 1px solid var(--bgColorDark);
 }
 
-.cell.mood0 { background: #DEDEDE; }
-.cell.mood1 { background: #7E57C2; }
-.cell.mood2 { background: #5c6bc0; }
-.cell.mood3 { background: #00BCD4; }
-.cell.mood4 { background: #9CCC65; }
-.cell.mood5 { background: #4CAF50; }
+.cell.mood0 { background: var(--moodNotSetColor); }
+.cell.mood1 { background: var(--moodSaddestColor); }
+.cell.mood2 { background: var(--moodSadColor); }
+.cell.mood3 { background: var(--moodNeutralColor); }
+.cell.mood4 { background: var(--moodHappyColor); }
+.cell.mood5 { background: var(--moodHappiestColor); }
 
-.log .mood1 img { background: #7E57C2; }
-.log .mood2 img { background: #5c6bc0; }
-.log .mood3 img { background: #00BCD4; }
-.log .mood4 img { background: #9CCC65; }
-.log .mood5 img { background: #4CAF50; }
+.log .mood1 img { background: var(--moodSaddestColor); }
+.log .mood2 img { background: var(--moodSadColor); }
+.log .mood3 img { background: var(--moodNeutralColor); }
+.log .mood4 img { background: var(--moodHappyColor); }
+.log .mood5 img { background: var(--moodHappiestColor); }
 
 .log img {
   margin: 10px;
@@ -103,13 +129,13 @@ body {
 }
 
 .monthHeader:hover {
-  border: 2px solid #DEDEDE;
+  border: 2px solid var(--bgColorDark);
 }
 
 .monthHeader h5 {
   padding: 10px;
   margin: 0;
-  color: #000000;
+  color: var(--fontColor);
 }
 
 .monthHeader h5:before {
@@ -125,7 +151,7 @@ body {
 }
 
 .emotion {
-  background: #DEDEDE;
+  background: var(--bgColorDark);
   display: inline-block;
   padding: 2px 8px;
   border-radius: 1rem;
