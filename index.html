@@ -1,18 +1,75 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Teo Vogel">
+    <link rel="icon" href="img/icon.png">
+    <title>Pixels Web</title>
 
     <!-- CSS -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
     <link rel="stylesheet" href="css/app.css">
-
-    <title>Proyecto 1</title>
   </head>
-  <body>
-    <h1>Proyecto 1</h1>
+  <body class="light-theme">
+
+    <div class="header">
+      <div class="header-image"> <a href="https://www.teovogel.me/pixels" target="_blank"><img src="img/icon.png" alt="Pixels Logo"/></a></div>
+    </div>
+
+    <div class="container text-center" id="jsonUploaderContainer">
+      <button type="button" class="btn btn-primary" onclick="document.getElementById('selectFiles').click();">Upload JSON</button>
+        <input style="display: none;" type="file" id="selectFiles" class="form-control-file" accept=".json" />
+      <br/><br/>
+      <div class="container">
+        <p><b>Select the JSON file containing your pixels from your computer.</b></p>
+        <p><b>You can export your pixels from the app with the "Export to JSON" option!</b></p><br/>
+        <p>Your Pixels will not be uploaded to the cloud, they will be processed locally on your browser.</p>
+        <p>When you refresh the page, they will get deleted from it.</p>
+        <p>Always be mindful of your data. Only upload your pixels to sites and devices you trust!</p><br/>
+        <p>You can read the source code of this page at <a href="https://github.com/TeoVogel/proyecto-1" target="_blank">https://github.com/TeoVogel/proyecto-1</a></p>
+      </div>
+    </div>
+
+    <div class="container-fluid" id="pixelsTableContainer"></div>
+    <div class="container" id="pixelsLogsContainer"></div>
+
+    <footer class="footer">
+      <div class="container">
+        <form>
+          <div class="switch">
+           <label><input id="themeToggle" type="checkbox" onclick="toggleTheme()">Dark Theme</label>
+          </div>
+        </form>
+      </div>
+    </footer>
 
     <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+
     <script src="js/app.js"></script>
+    <script src="js/models.js"></script>
+    <script src="js/utils.js"></script>
+
+    <script>
+      $("#selectFiles").change(function(ev) {
+        var files = $("#selectFiles")[0].files;
+        if (files.length <= 0) { return false; }
+        var fr = new FileReader();
+        fr.onload = function(e) {
+          var result = JSON.parse(e.target.result);
+          parseJSON(result);
+        }
+        fr.readAsText(files.item(0));
+      });
+    </script>
+    <script>setupTheme();</script>
+
   </body>
 </html>
