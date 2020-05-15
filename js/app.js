@@ -1,5 +1,5 @@
 function setupTheme() {
-  this.isDarkThemeEnabled = localStorage.getItem("isDarkThemeEnabled");
+  this.isDarkThemeEnabled = localStorage.getItem("isDarkThemeEnabled") == 'true';
   setTheme(this.isDarkThemeEnabled);
   document.getElementById("themeToggle").checked = this.isDarkThemeEnabled;
 }
